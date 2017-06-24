@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-
 from setuptools import setup, find_packages
+
 import provider
 
 setup(
@@ -10,15 +9,17 @@ setup(
     long_description=open('README.rst').read(),
     author='Alen Mujezinovic',
     author_email='alen@caffeinehit.com',
-    url = 'https://github.com/caffeinehit/django-oauth2-provider',
-    packages= find_packages(exclude=('tests*',)),
+    url='https://github.com/caffeinehit/django-oauth2-provider',
+    packages=find_packages(exclude=('tests*',)),
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3.6',
         'Framework :: Django',
+        'Framework :: Django :: 1.11',
     ],
     install_requires=[
         "shortuuid>=0.4"
