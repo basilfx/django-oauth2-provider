@@ -1,4 +1,5 @@
-from ..utils import now
+import codecs
+from ..utils import now, MergeDict
 from .forms import ClientAuthForm, PublicPasswordGrantForm
 from .models import AccessToken
 
@@ -29,7 +30,9 @@ class BasicClientBackend(object):
 
         try:
             basic, base64 = auth.split(' ')
-            client_id, client_secret = base64.decode('base64').split(':')
+            base64_base64 = codecs.decode(
+                base64.encode('utf-8'), 'base64').decode('utf-8')
+            client_id, client_secret = base64_base64.split(':')
 
             form = ClientAuthForm({
                 'client_id': client_id,
@@ -53,7 +56,8 @@ class RequestParamsClientBackend(object):
         if request is None:
             return None
 
-        form = ClientAuthForm(request.REQUEST)
+        request_data = MergeDict(request.GET, request.POST)
+        form = ClientAuthForm(request_data)
 
         if form.is_valid():
             return form.cleaned_data.get('client')
@@ -74,7 +78,8 @@ class PublicPasswordBackend(object):
         if request is None:
             return None
 
-        form = PublicPasswordGrantForm(request.REQUEST)
+        request_data = MergeDict(request.GET, request.POST)
+        form = PublicPasswordGrantForm(request_data)
 
         if form.is_valid():
             return form.cleaned_data.get('client')
